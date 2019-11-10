@@ -76,10 +76,10 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/external/law/
-/data/external/sfcr/
-/data/interim/law/
-/data/interim/sfcr/
+/data/external/law/*.pdf
+/data/external/sfcr/*.pdf
+/data/interim/law/*.txt
+/data/interim/sfcr/*.txt
 /data/processed/
 /data/raw/
 
