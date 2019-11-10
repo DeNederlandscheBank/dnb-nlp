@@ -8,7 +8,7 @@ solvency2-nlp
 
 Experimental natural language processing projects with Solvency 2 documents
 
-In this repository we publish our progress with respect to the application of natural language processing with Solvency 2 documents.
+In this repository we publish our progress in natural language processing with Solvency 2 documents.
 
 Installation
 ============
@@ -70,6 +70,7 @@ This downloads all the SFCRs defined in ``/data/metadata_sfcr.csv`` (the cvs-fil
 
 The pdf-documents are processed and the txt-files are put in ``/data/interim/sfcr`` for further processing.
 
---------
+Credits
+-------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+This package was created with Cookiecutter and the data science project template (https://drivendata.github.io/cookiecutter-data-science).
