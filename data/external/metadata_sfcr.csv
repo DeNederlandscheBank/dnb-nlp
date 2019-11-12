@@ -1,5 +1,11 @@
-Insurance Undertaking,Year,Document Type,Url
-Aegon Levensverzekering,2018,SFCR,https://www.aegon.nl/file/248508/download?token=wCyZy_Ky
-Aegon Schadeverzekering,2018,SFCR,https://www.aegon.nl/file/248509/download?token=q8QMslkQ
-Aegon Spaarkas,2018,SFCR,https://www.aegon.nl/file/248507/download?token=a1lWGKcE
-Optas Pensioenen,2018,SFCR,https://www.aegon.nl/file/248506/download?token=xpbdl_rZ
+Insurance Undertaking,Year,Document Type,Language,Url Type,Url
+Aegon Levensverzekering,2018,SFCR,EN,PDF,https://www.aegon.nl/file/248508/download?token=wCyZy_Ky
+Aegon Schadeverzekering,2018,SFCR,EN,PDF,https://www.aegon.nl/file/248509/download?token=q8QMslkQ
+Aegon Spaarkas,2018,SFCR,EN,PDF,https://www.aegon.nl/file/248507/download?token=a1lWGKcE
+Optas Pensioenen,2018,SFCR,EN,PDF,https://www.aegon.nl/file/248506/download?token=xpbdl_rZ
+ASR Nederland N.V.,2018,SFCR,EN,PDF,https://www.asrnl.com/-/media/files/asrnederland-nl/investor-relations/jaarverslagen/2018/2018-sfcr-asr-nederland.pdf
+ASR Aanvullende Ziektekostenverzekeringen N.V.,2018,SFCR,EN,PDF,https://www.asrnl.com/-/media/files/asrnederland-nl/investor-relations/jaarverslagen/2018/2018-sfcr-aanvullende-ziektekostenverzekeringen.pdf
+ASR Basis Ziektekostenverzekeringen N.V.,2018,SFCR,EN,PDF,https://www.asrnl.com/-/media/files/asrnederland-nl/investor-relations/jaarverslagen/2018/2018-sfcr-asr-basis-ziektekostenverzekeringen.pdf
+ASR Levensverzekering N.V.,2018,SFCR,EN,PDF,https://www.asrnl.com/-/media/files/asrnederland-nl/investor-relations/jaarverslagen/2018/2018-sfcr-asr-levensverzekering.pdf
+ASR Schadeverzekering N.V.,2018,SFCR,EN,PDF,https://www.asrnl.com/-/media/files/asrnederland-nl/investor-relations/jaarverslagen/2018/2018-sfcr-asr-schadeverzekering.pdf
+Nationale-Nederlanden,2018,SFCR,EN,HTML,https://www.nn-group.com/Investors/2018-Annual-Report.htm
