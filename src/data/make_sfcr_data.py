@@ -49,13 +49,18 @@ def main(output_path, interim_path):
             for link in links:
                 link_string = str(link).lower()
                 if (("sfcr" in link_string) or 
-                    ("solvency and financial condition" in link_string)) and (".pdf" in link_string):
+                    ("solvency and financial condition" in link_string) or
+                    ("solvency financial condition" in link_string)) and (".pdf" in link_string):
                     content = requests.get(urllib.parse.urljoin(url, link['href']), output_path)
                     if content.status_code==200 and content.headers['content-type']=='application/pdf':
                         n_pdfs += 1
-                        with open(join(output_path, filename[:-4]+"_"+str(n_pdfs)+'.pdf'), 'wb') as pdf:
-                            pdf.write(content.content)
-        logger.info("--{0} pdfs downloaded and saved in {1}".format(n_pdfs, output_path))        
+                        f = filename[:-4]+"_"+str(n_pdfs)+'.pdf'
+                        if not(isfile(join(output_path, f))):
+                            with open(join(output_path, f), 'wb') as pdf:
+                                pdf.write(content.content)
+                                logger.info('--Retrieving %s' % f)
+                        else:
+                            logger.info('--SFCR %s already downloaded' % f)
         return n_pdfs
 
     def convert_to_text(filename, output_path, interim_path):
@@ -79,7 +84,8 @@ def main(output_path, interim_path):
         document = df_sfcr.loc[row, 'Document Type']
         url = df_sfcr.loc[row, 'Url']
         url_type = df_sfcr.loc[row, 'Url Type']
-        filename = name + "_" + document + '.pdf'
+        year = df_sfcr.loc[row, 'Year']
+        filename = str(year) + "_" + name + "_" + document + '.pdf'
         df_sfcr.loc[row, "Filename"] = filename
         if url_type=="PDF":
             n_pdfs = download_pdf(filename, url, output_path)

@@ -18,7 +18,7 @@ INTERIM_PATH = join('data', 'interim', 'law')
 @click.option('--output_path', default=EXTERNAL_PATH, help='The path of the downloaded files.')
 @click.option('--interim_path', default=INTERIM_PATH, help='The path of the interim files.')
 
-def main(language, output_path, interim_path):
+def main(language_id, output_path, interim_path):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
@@ -31,22 +31,22 @@ def main(language, output_path, interim_path):
     urls = {lang: 'https://eur-lex.europa.eu/legal-content/' + lang +
             '/TXT/PDF/?uri=OJ:L:2015:012:FULL&from=EN' for lang in EU_languages}
 
-    def download(language, url, output_path):
-        filename = 'Solvency II Delegated Acts - ' + language+ '.pdf'
+    def download(language_id, url, output_path):
+        filename = 'Solvency II Delegated Acts - ' + language_id + '.pdf'
         if not(isfile(join(output_path, filename))):
-            logger.info('Retrieving %s' % language)
+            logger.info('Retrieving %s' % language_id)
             r = requests.get(url)
             f = open(join(output_path, filename),'wb+')
             f.write(r.content)
             f.close()
         else:
-            logger.info('Language %s already downloaded' % language)
+            logger.info('Language %s already downloaded' % language_id)
 
-    if language != "ALL":
-        if language in EU_languages:
-            languages = [language]
+    if language_id != "ALL":
+        if language_id in EU_languages:
+            languages = [language_id]
         else:
-            logger.info('Unknown language specified: %s' % language)
+            logger.info('Unknown language specified: %s' % language_id)
             languages = []
     else:
         languages = EU_languages
