@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import click
 import logging
+import os
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
 import re
 
-art_dict= dict({
-                'BG': ['Член',      'pre'],
+art_dict= dict({'BG': ['Член',      'pre'],
                 'CS': ['Článek',    'pre'],
                 'DA': ['Artikel',   'pre'],
                 'DE': ['Artikel',   'pre', 'TITEL|KAPITEL|ABSCHNITT|Unterabschnitt'],
@@ -31,6 +31,14 @@ art_dict= dict({
                 'SL': ['Člen',      'pre'],
                 'SV': ['Artikel',   'pre']})
 
+def load(type = None, language = None):
+    if (type == "Delegated Acts") and language:
+        name = os.path.join("..", "data", "interim", "law", "Delegated_Acts_" + language + ".txt")
+        file = open(name, "rb")
+        text = file.read().decode('utf-8')
+        file.close()
+    return text
+
 def article_regex(language, num):
     order = art_dict[language][1]
     headings = art_dict[language][2]
@@ -43,7 +51,7 @@ def article_regex(language, num):
         string = str(num)+'.\s('+art_id+')\s(.*?)'+str(num+1)+'. '+art_id
     return re.compile(string, re.DOTALL)
 
-def retrieve_article(text, language, num):
+def article(text, language, num):
     art_re = article_regex(language, num)
     art_text = art_re.search(text)
     art_num = int(art_text[1])
