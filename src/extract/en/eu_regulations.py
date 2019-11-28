@@ -17,43 +17,41 @@ REGULATION_CODES_MAP = {}
 
 REGULATION_PTN = r"""
 (
-	(Directive(s)?)\s
+	(Directive(s)?)\s+
     (
-      (\s?(and|to|or|-|\,)\s?)?
+      (\s+(and|to|or|-|\,)\s+)?
   	  (\d+\/\d+\/(EC|EEC|EU))
     )+
-
 |
-  (Regulation(s)?)\s
+  (Regulation(s)?)\s+
     (
-      (\s?(and|to|or|-|\,)\s?)?
-      \((EC|EEC|EU)\)\sNO\s\d+\/\d+
+      (\s+(and|to|or|-|\,)\s+)?
+      \((EC|EEC|EU)\)\s+NO\s+\d+\/\d+
     )+
 |
-  ((that|this|these|those)\s(Directive(s)?|Regulation(s)?))
+  ((that|this|these|those)\s+(Directive(s)?|Regulation(s)?))
 | 
-  the\sSolvency\s(II|2)\sDirective
+  the\s+Solvency\s+(II|2)\s+Directive
 )
 """
 
 ARTICLE_PTN = r"""
 (
 	(
-		Article(s)?\s
+		Article(s)?\s+
       (
-        (\s?(and|to|or|-|\,)\s?)?
-
+        (\s+(and|to|or|-|\,)\s+)?
         (
-          (\d+([a-z])?)+((\sparagraph\s)?\s?\((\d+|[a-z]+|\d+[a-z]+)\))*
+          (\d+([a-z])?)+((\s+paragraph\s+)?\s+\((\d+|[a-z]+|\d+[a-z]+)\))*
         |
-          ((\sparagraph\s)?\s?\((\d+|[a-z]+|\d+[a-z]+)\))+
+          ((\s+paragraph\s+)?\s+\((\d+|[a-z]+|\d+[a-z]+)\))+
         )
       
       )+
   )
 |
   (
-    (that|this|these|those)\sArticle(s)?
+    (that|this|these|those)\s+Article(s)?
   )
 )"""
 
