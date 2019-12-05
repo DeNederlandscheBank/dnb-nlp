@@ -105,19 +105,18 @@ def get_solvency2term_annotations(text: str,
 def load_entities_dict_by_path(entities_fn: str):
     entities = {}
     import csv
+    with open(entities_fn, 'r', encoding='utf8') as f:
+        reader = csv.DictReader(f)
+        for idx, row in enumerate(reader):
+            entities[idx] = entity_config(idx, 
+                                          row['term'], 
+                                          int(row['priority']) if row['priority'] else 0,
+                                          name_is_alias = True)
 
     with open(entities_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            entities[row['id']] = entity_config(row['id'], 
-                                                row['term'], 
-                                                int(row['priority']) if row['priority'] else 0,
-                                                name_is_alias = True)
-
-    with open(entities_fn, 'r', encoding='utf8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            entity = entities.get(row['id'])
+        for idx, row in enumerate(reader):
+            entity = entities.get(idx)
             if entity:
                 add_aliases_to_entity(entity,
                                       row['alias'])

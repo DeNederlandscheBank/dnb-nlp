@@ -1,51 +1,51 @@
-id,term locale,term category,term,alias,priority,case sensitive
-1,EN,Solvency 2,alternative valuation methods,,900,False
-2,EN,Solvency 2,scenario analysis,,900,False
-3,EN,Solvency 2,health insurance obligation,,900,False
-4,EN,Solvency 2,medical expense insurance obligation,,900,False
-5,EN,Solvency 2,income protection insurance obligation,,900,False
-6,EN,Solvency 2,workers compensation insurance obligation,,900,False
-7,EN,Solvency 2,health reinsurance obligation,,900,False
-8,EN,Solvency 2,medical expense reinsurance obligation,,900,False
-9,EN,Solvency 2,income protection reinsurance obligation,,900,False
-10,EN,Solvency 2,workers' compensation reinsurance obligation,,900,False
-11,EN,Solvency 2,written premiums,,900,False
-12,EN,Solvency 2,earned premiums,,900,False
-13,EN,Solvency 2,surrender,,900,False
-14,EN,Solvency 2,discontinuance,,900,False
-15,EN,Solvency 2,discontinuity options,,900,False
-16,EN,Solvency 2,continuity options,,900,False
-17,EN,Solvency 2,coverage of an internal model,,900,False
-18,EN,Solvency 2,scope of an internal model,,900,False
-19,EN,Solvency 2,investment in a tradable security or another financial instrument based on repackaged loans,,900,False
-20,EN,Solvency 2,resecuritisation position,,900,False
-21,EN,Solvency 2,originator,,900,False
-22,EN,Solvency 2,sponsor,,900,False
-23,EN,Solvency 2,tranche,,900,False
-24,EN,Solvency 2,central bank,,900,False
-25,EN,Solvency 2,basis risk,,900,False
-26,EN,Solvency 2,material basis risk,,900,False
-27,EN,Solvency 2,collateral arrangements,,900,False
-28,EN,Solvency 2,pooling arrangement,,900,False
-29,EN,Solvency 2,pool exposure of type A,,900,False
-30,EN,Solvency 2,pool exposure of type B,,900,False
-31,EN,Solvency 2,pool exposure of type C,,900,False
-32,EN,Solvency 2,deep market,,900,False
-33,EN,Solvency 2,liquid market,,900,False
-34,EN,Solvency 2,transparent market,,900,False
-35,EN,Solvency 2,future discretionary bonuses,,900,False
-36,EN,Solvency 2,future discretionary benefits,,900,False
-37,EN,Solvency 2,basic risk-free interest rate term structure,,900,False
-38,EN,Solvency 2,matching adjustment portfolio,,900,False
-39,EN,Solvency 2,SLT Health obligations,,900,False
-40,EN,Solvency 2,NSLT Health obligations,,900,False
-41,EN,Solvency 2,major business unit,,900,False
-42,EN,Solvency 2,Collective investment undertaking,,900,False
-43,EN,Solvency 2,administrative management or supervisory body,,900,False
-44,EN,Solvency 2,aggregate maximum risk exposure,,900,False
-45,EN,Solvency 2,existing insurance or reinsurance contract,,900,False
-46,EN,Solvency 2,the expected profit included in future premiums,,900,False
-47,EN,Solvency 2,mortgage insurance,,900,False
-48,EN,Solvency 2,subsidiary undertaking,,900,False
-49,EN,Solvency 2,Solvency Capital Requirement,SCR,900,False
-50,EN,Solvency 2,Basic Solvency Capital Requirement,BSCR,900,False
+term locale,term category,term,alias,priority,case sensitive
+EN,Solvency 2,alternative valuation methods,,900,False
+EN,Solvency 2,scenario analysis,,900,False
+EN,Solvency 2,health insurance obligation,,900,False
+EN,Solvency 2,medical expense insurance obligation,,900,False
+EN,Solvency 2,income protection insurance obligation,,900,False
+EN,Solvency 2,workers compensation insurance obligation,,900,False
+EN,Solvency 2,health reinsurance obligation,,900,False
+EN,Solvency 2,medical expense reinsurance obligation,,900,False
+EN,Solvency 2,income protection reinsurance obligation,,900,False
+EN,Solvency 2,workers' compensation reinsurance obligation,,900,False
+EN,Solvency 2,written premiums,,900,False
+EN,Solvency 2,earned premiums,,900,False
+EN,Solvency 2,surrender,,900,False
+EN,Solvency 2,discontinuance,,900,False
+EN,Solvency 2,discontinuity options,,900,False
+EN,Solvency 2,continuity options,,900,False
+EN,Solvency 2,coverage of an internal model,,900,False
+EN,Solvency 2,scope of an internal model,,900,False
+EN,Solvency 2,investment in a tradable security or another financial instrument based on repackaged loans,,900,False
+EN,Solvency 2,resecuritisation position,,900,False
+EN,Solvency 2,originator,,900,False
+EN,Solvency 2,sponsor,,900,False
+EN,Solvency 2,tranche,,900,False
+EN,Solvency 2,central bank,,900,False
+EN,Solvency 2,basis risk,,900,False
+EN,Solvency 2,material basis risk,,900,False
+EN,Solvency 2,collateral arrangements,,900,False
+EN,Solvency 2,pooling arrangement,,900,False
+EN,Solvency 2,pool exposure of type A,,900,False
+EN,Solvency 2,pool exposure of type B,,900,False
+EN,Solvency 2,pool exposure of type C,,900,False
+EN,Solvency 2,deep market,,900,False
+EN,Solvency 2,liquid market,,900,False
+EN,Solvency 2,transparent market,,900,False
+EN,Solvency 2,future discretionary bonuses,,900,False
+EN,Solvency 2,future discretionary benefits,,900,False
+EN,Solvency 2,basic risk-free interest rate term structure,,900,False
+EN,Solvency 2,matching adjustment portfolio,,900,False
+EN,Solvency 2,SLT Health obligations,,900,False
+EN,Solvency 2,NSLT Health obligations,,900,False
+EN,Solvency 2,major business unit,,900,False
+EN,Solvency 2,Collective investment undertaking,,900,False
+EN,Solvency 2,administrative management or supervisory body,,900,False
+EN,Solvency 2,aggregate maximum risk exposure,,900,False
+EN,Solvency 2,existing insurance or reinsurance contract,,900,False
+EN,Solvency 2,the expected profit included in future premiums,,900,False
+EN,Solvency 2,mortgage insurance,,900,False
+EN,Solvency 2,subsidiary undertaking,,900,False
+EN,Solvency 2,Solvency Capital Requirement,SCR,900,False
+EN,Solvency 2,Basic Solvency Capital Requirement,BSCR,900,False
