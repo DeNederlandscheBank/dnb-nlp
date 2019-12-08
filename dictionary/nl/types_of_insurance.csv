@@ -1,0 +1,49 @@
+term locale,term category,term,alias,priority,case sensitive,wikipedia
+NL,Type of insurance,verzekering,,910,False,http://nl.wikipedia.org/wiki/Verzekering
+NL,Type of insurance,rechtsbijstandverzekering,,900,False,http://nl.wikipedia.org/wiki/Rechtsbijstandverzekering
+BE,Type of insurance,zorgverzekering,,900,False,http://nl.wikipedia.org/wiki/Zorgverzekering_(Vlaanderen)
+NL,Type of insurance,reisverzekering,,900,False,http://nl.wikipedia.org/wiki/Reisverzekering
+NL,Type of insurance,ziektekostenverzekering,,900,False,http://nl.wikipedia.org/wiki/Ziektekostenverzekering
+NL,Type of insurance,zorgverzekering,,900,False,http://nl.wikipedia.org/wiki/Zorgverzekering_(Nederland)
+Aruba,Type of insurance,algemene ziektekosten verzekering,,900,False,http://nl.wikipedia.org/wiki/Algemene_Ziektekosten_Verzekering_(Aruba)
+NL,Type of insurance,werknemersverzekering,,900,False,http://nl.wikipedia.org/wiki/Werknemersverzekering
+NL,Type of insurance,particuliere ziektekostenverzekering,,900,False,http://nl.wikipedia.org/wiki/Particuliere_ziektekostenverzekering
+NL,Type of insurance,volksverzekering,,900,False,http://nl.wikipedia.org/wiki/Volksverzekering
+NL,Type of insurance,pro life zorgverzekering,,900,False,http://nl.wikipedia.org/wiki/Pro_Life_Zorgverzekeringen
+NL,Type of insurance,autoverzekering,,900,False,http://nl.wikipedia.org/wiki/Autoverzekering
+NL,Type of insurance,schadeverzekering,,900,False,http://nl.wikipedia.org/wiki/Schadeverzekering
+NL,Type of insurance,aansprakelijkheidsverzekering,,900,False,http://nl.wikipedia.org/wiki/Aansprakelijkheidsverzekering
+NL,Type of insurance,uitvaartverzekering,,900,False,http://nl.wikipedia.org/wiki/Uitvaartverzekering
+NL,Type of insurance,brandverzekering,,900,False,http://nl.wikipedia.org/wiki/Brandverzekering
+NL,Type of insurance,beleggingsverzekering,,900,False,http://nl.wikipedia.org/wiki/Beleggingsverzekering
+BE,Type of insurance,spaarverzekering,,900,False,http://nl.wikipedia.org/wiki/Spaarverzekering_(Belgi%C3%AB)
+NL,Type of insurance,inboedelverzekering,,900,False,http://nl.wikipedia.org/wiki/Inboedelverzekering_(Nederland)
+NL,Type of insurance,microverzekering,,900,False,http://nl.wikipedia.org/wiki/Microverzekering
+NL,Type of insurance,opstalverzekering,,900,False,http://nl.wikipedia.org/wiki/Opstalverzekering
+NL,Type of insurance,ongevallenverzekering,,900,False,http://nl.wikipedia.org/wiki/Ongevallenverzekering_(Nederland)
+NL,Type of insurance,sommenverzekering,,900,False,http://nl.wikipedia.org/wiki/Sommenverzekering
+NL,Type of insurance,particuliere arbeidsongeschiktheidsverzekering,,900,False,http://nl.wikipedia.org/wiki/Arbeidsongeschiktheidsverzekering_voor_zelfstandigen
+NL,Type of insurance,particuliere aansprakelijkheidsverzekering,,900,False,http://nl.wikipedia.org/wiki/Aansprakelijkheidsverzekering_voor_Particulieren
+NL,Type of insurance,variaverzekering,,900,False,http://nl.wikipedia.org/wiki/Variaverzekering
+NL,Type of insurance,transportverzekering,,900,False,http://nl.wikipedia.org/wiki/Transportverzekering
+NL,Type of insurance,herverzekering,,900,False,http://nl.wikipedia.org/wiki/Herverzekering
+NL,Type of insurance,levensverzekering,,900,False,http://nl.wikipedia.org/wiki/Levensverzekering
+NL,Type of insurance,kapitaalverzekering,,900,False,http://nl.wikipedia.org/wiki/Kapitaalverzekering
+BE,Type of insurance,groepsverzekering,,900,False,http://nl.wikipedia.org/wiki/Groepsverzekering_(Belgi%C3%AB)
+NL,Type of insurance,bedrijfsschadeverzekering,,900,False,http://nl.wikipedia.org/wiki/Bedrijfsschadeverzekering_(Nederland)
+NL,Type of insurance,overlijdensrisicoverzekering,,900,False,http://nl.wikipedia.org/wiki/Overlijdensrisicoverzekering_(Nederland)
+NL,Type of insurance,kilometerverzekering,,900,False,http://nl.wikipedia.org/wiki/Kilometerverzekering
+NL,Type of insurance,basisverzekering,,900,False,http://nl.wikipedia.org/wiki/Basisverzekering_2008
+NL,Type of insurance,aansprakelijkheidsverzekering in verband met vrijwilligerswerk,,900,False,http://nl.wikipedia.org/wiki/Aansprakelijkheidsverzekering_in_verband_met_vrijwilligerswerk
+NL,Type of insurance,verzekering gewaarborgd wonen,,900,False,http://nl.wikipedia.org/wiki/Verzekering_gewaarborgd_wonen
+NL,Type of insurance,machinebreukverzekering,,900,False,http://nl.wikipedia.org/wiki/Machinebreukverzekering
+NL,Type of insurance,zeeverzekering,,900,False,http://nl.wikipedia.org/wiki/Zeeverzekering
+NL,Type of insurance,woonlastenverzekering,,900,False,http://nl.wikipedia.org/wiki/Woonlastenverzekering
+NL,Type of insurance,kredietbeschermingverzekering,,900,False,http://nl.wikipedia.org/wiki/Kredietbeschermingsverzekering
+NL,Type of insurance,kredietverzekering,,900,False,http://nl.wikipedia.org/wiki/Kredietverzekering
+Caribisch Nederland,Type of insurance,zorgverzekering,,900,False,http://nl.wikipedia.org/wiki/Zorgverzekering_Caribisch_Nederland
+NL,Type of insurance,algemene ouderdomsverzekering,,900,False,http://nl.wikipedia.org/wiki/Algemene_ouderdomsverzekering
+NL,Type of insurance,schuldsaldoverzekering,,900,False,http://nl.wikipedia.org/wiki/Schuldsaldoverzekering
+NL,Type of insurance,huisdierenverzekering,,900,False,http://nl.wikipedia.org/wiki/Huisdierenverzekering
+NL,Type of insurance,protection indemnity verzekering,,900,False,http://nl.wikipedia.org/wiki/Protection_%26_Indemnity_verzekering
+NL,Type of insurance,contra-expertise verzekering,,900,False,http://nl.wikipedia.org/wiki/Contra-expertise_(verzekering)

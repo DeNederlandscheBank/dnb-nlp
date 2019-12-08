@@ -1,0 +1,11 @@
+term locale,term category,term,alias,priority,case sensitive
+EN,Type of insurance,life insurance,,900,False
+EN,Type of insurance,health insurance,,900,False
+EN,Type of insurance,medical expense insurance,,900,False
+EN,Type of insurance,income protection insurance,,900,False
+EN,Type of insurance,workers compensation insurance,,900,False
+EN,Type of insurance,health reinsurance,,900,False
+EN,Type of insurance,medical expense reinsurance,,900,False
+EN,Type of insurance,income protection reinsurance,,900,False
+EN,Type of insurance,workers' compensation reinsurance,,900,False
+EN,Type of insurance,mortgage insurance,,900,False
