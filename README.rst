@@ -41,13 +41,13 @@ Legislation data
 
 To get the legislation data, run in the project root::
     
-    python src/data/make_law_data.py
+    python src/utils/make_law_data.py
 
 Then you can choose from all official European languages.
 
 You can also run::
 
-    python src/data/make_law_data.py --language EN
+    python src/utils/make_law_data.py --language EN
 
 to get the English version of the legislation. To get all languages use ``--language ALL``.
 
