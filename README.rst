@@ -64,7 +64,7 @@ SFCR data
 
 To get the SFCR data, run in the project root::
     
-    python src/data/make_sfcr_data.py
+    python src/utils/make_sfcr_data.py
 
 This downloads all the SFCRs defined in ``/data/metadata_sfcr.csv`` (the cvs-files contains the urls of the SFCR documents of a number of insurance undertakings).
 

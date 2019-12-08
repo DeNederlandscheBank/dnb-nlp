@@ -74,7 +74,7 @@ def main(output_path, interim_path):
         txt.write(text.encode('utf-8'))
         txt.close()
 
-    df_sfcr = pd.read_csv(join(METADATA_PATH, 'metadata_sfcr.csv'))
+    df_sfcr = pd.read_csv(join(METADATA_PATH, 'metadata_sfcr.csv'), encoding = 'Latin-1')
 
     df_sfcr['Filename'] = ""
     df_sfcr['Number of pdfs'] = 0
@@ -83,9 +83,10 @@ def main(output_path, interim_path):
         name = df_sfcr.loc[row, 'Insurance Undertaking']
         document = df_sfcr.loc[row, 'Document Type']
         url = df_sfcr.loc[row, 'Url']
+        lang = df_sfcr.loc[row, 'Language']
         url_type = df_sfcr.loc[row, 'Url Type']
         year = df_sfcr.loc[row, 'Year']
-        filename = str(year) + "_" + name + "_" + document + '.pdf'
+        filename = str(year) + "_" + str(lang) + "_" + name + "_" + document + '.pdf'
         df_sfcr.loc[row, "Filename"] = filename
         if url_type=="PDF":
             n_pdfs = download_pdf(filename, url, output_path)
