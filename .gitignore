@@ -80,6 +80,7 @@ target/
 /data/external/sfcr/*.pdf
 /data/interim/law/*.txt
 /data/interim/sfcr/*.txt
+/data/interim/sfcr/*.pickle
 /data/processed/
 /data/raw/
 

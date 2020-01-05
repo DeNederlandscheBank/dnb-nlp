@@ -27,7 +27,7 @@ And activate the environment::
 
 Install the required packages::
 
-    pip install -r requirements.txt
+    pip install -r requirements.txt --find-links=pkgs/ 
 
 This installs the packages for natural language processing that we use (scipy, gensim, nltk and lexnlp).
 
