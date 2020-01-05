@@ -62,7 +62,8 @@ def get_solvency2terms(text: str,
                                   conflict_resolving_func=conflict_resolving_func,
                                   text_languages=text_languages,
                                   min_alias_len=min_alias_len,
-                                  prepared_alias_black_list=prepared_alias_black_list):
+                                  prepared_alias_black_list=prepared_alias_black_list,
+                                  use_stemmer = True):
         yield (ent.entity, ent.coords)
 
 
@@ -89,7 +90,8 @@ def get_solvency2term_annotations(text: str,
                                      conflict_resolving_func=conflict_resolving_func,
                                      text_languages=text_languages,
                                      min_alias_len=min_alias_len,
-                                     prepared_alias_black_list=prepared_alias_black_list)
+                                     prepared_alias_black_list=prepared_alias_black_list,
+                                     use_stemmer = True)
 
     for ent in dic_entries:
         ant = GeoAnnotation(coords=ent.coords)
