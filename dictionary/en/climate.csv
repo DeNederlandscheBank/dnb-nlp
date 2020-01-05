@@ -1,0 +1,26 @@
+term locale,term category,term,alias,priority,case sensitive
+EN,Climate,climate-related risk,,900,False
+EN,Climate,physical risk,,900,False
+EN,Climate,transition risk,,900,False
+EN,Climate,sustainability risk,,900,False
+EN,Climate,climate change,,900,False
+EN,Climate,climate neutral economy,,900,False
+EN,Climate,wind pattern shift,,900,False
+EN,Climate,storm pattern shift,,900,False
+EN,Climate,increased frequency,,900,False
+EN,Climate,hot weather,,900,False
+EN,Climate,hail,,900,False
+EN,Climate,high winds,,900,False
+EN,Climate,extreme percipitation,,900,False
+EN,Climate,drought,,900,False
+EN,Climate,flooding,,900,False
+EN,Climate,abrupt price increase,,900,False
+EN,Climate,carbon-intensive sector,,900,False
+EN,Climate,energy transition,,900,False
+EN,Climate,climate policy,,900,False
+EN,Climate,carbon neutral economy,,900,False
+EN,Climate,write-down of loans,,900,False
+EN,Climate,write-down of investments,,900,False
+EN,Climate,Dutch Royal Netherlands Meteorological Institute,KNMI,900,False
+EN,Climate,Network for Greening the Financial System,NGFS,900,False
+EN,Climate,Internnational Association of Insurance Supervisors,IAIS,900,False
