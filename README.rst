@@ -13,6 +13,9 @@ In this repository we publish our progress in natural language processing with S
 Installation
 ============
 
+Online installation
+-------------------
+
 Clone the project::
 
     git clone https://github.com/DeNederlandscheBank/solvency2-nlp.git
@@ -25,11 +28,43 @@ And activate the environment::
 
     conda activate your_env_name
 
-Install the required packages::
+Make sure you are in the root of the cloned project. Install the required packages::
 
     pip install -r requirements.txt --find-links=pkgs/ 
 
 This installs the packages for natural language processing that we use (scipy, gensim, nltk and lexnlp).
+
+Offline installation
+--------------------
+
+We included all the required packages in the project, so you should be able to do a offline installation.
+
+Make sure you have at least Anaconda 5.3.1 installed. 
+
+Make sure you have the zip file from https://github.com/DeNederlandscheBank/solvency2-nlp.git. Extract the zip file to the desired location.
+
+Then start with a clean and empty environment::
+    
+    conda create -n your_env_name
+
+And activate the environment::
+
+    conda activate your_env_name
+
+Install the following packages::
+
+	conda install pkgs/vc-14-0.tar.bz2
+
+	conda install pkgs/vs2015_runtime-14.0.25420-0.tar.bz2
+
+Then install Python 3.6::
+
+	conda install python=3.6
+
+Make sure you are in the root of the cloned project. Then install the remaining packages in pkgs/.::
+
+	pip install -r requirements.txt --no-index --find-links pkgs/
+
 
 Install data
 ============
