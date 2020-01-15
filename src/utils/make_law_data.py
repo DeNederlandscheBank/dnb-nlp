@@ -14,7 +14,7 @@ EXTERNAL_PATH = join('data', 'external', 'law')
 INTERIM_PATH = join('data', 'interim', 'law')
 
 @click.command()
-@click.option('--language', prompt = "Language to download (BG,ES,CS,DA,DE,ET,EL,EN,FR,HR,IT,LV,LT,HU,MT,NL,PL,PT,RO,SK,SL,FI,SV or ALL)", default=None, help='The language of the legislation you want to download.')
+@click.option('--language_id', prompt = "Language to download (BG,ES,CS,DA,DE,ET,EL,EN,FR,HR,IT,LV,LT,HU,MT,NL,PL,PT,RO,SK,SL,FI,SV or ALL)", default=None, help='The language of the legislation you want to download.')
 @click.option('--output_path', default=EXTERNAL_PATH, help='The path of the downloaded files.')
 @click.option('--interim_path', default=INTERIM_PATH, help='The path of the interim files.')
 
