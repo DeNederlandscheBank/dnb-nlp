@@ -1,25 +1,44 @@
+"""Percent extraction for Dutch.
+
+This module implements percent extraction functionality in Dutch.
+
+Todo:
+"""
+
+# Imports
 import regex as re
 from typing import Generator
 
+from lexnlp.extract.en.ratios import get_ratio_annotations
 from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
+from .amounts import get_amounts, NUM_PTN
+from .money import CURRENCY_SYMBOL_MAP, CURRENCY_PREFIX_MAP
 
-from src.extract.nl.amounts import AmountParserNL
 
-amounts_parser = AmountParserNL()
-get_amounts = amounts_parser.parse
-
-PERCENT_UNITS_MAP = {
-    'procent': 0.01,
-    '%': 0.01
-}
+PERCENT_UNIT_MAP = {
+    "procent": 0.01,
+    "procenten": 0.01,
+    # "percentage": 0.01,
+    "procentpunt": 0.01,
+    "procentpunten": 0.01,
+    "bps": 0.0001,
+    "basispunt": 0.0001,
+    "basispunten": 0.0001,
+    "%": 0.01}
+PERCENT_UNIT_LIST = list(PERCENT_UNIT_MAP.keys())
+PERCENT_UNIT_LIST.sort(key=len, reverse=True)
 
 PERCENT_PTN = r"""
-(?P<text>(?P<num_text>{num_ptn})\s*(?P<unit_name>\w*procent|%))(?:\W|$)
-""".format(num_ptn=amounts_parser.NUM_PTN)
+(({num_ptn})[\s\)]*({percent_units}))(?:\W|$)
+""".format(num_ptn=NUM_PTN.replace("(?:\\W|$)", '') \
+           .replace("[\\.\\d][\\d\\.,]", "((?:{currency_prefixes}|[{currency_symbols}])\\s*)?[\\.\\d][\\d\\.,]" \
+                    .format(currency_prefixes='|'.join(CURRENCY_PREFIX_MAP),
+                            currency_symbols=''.join([re.escape(i) for i in CURRENCY_SYMBOL_MAP]), )),
+           percent_units='|'.join([re.escape(i) for i in PERCENT_UNIT_LIST]))
 PERCENT_PTN_RE = re.compile(PERCENT_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 
-def get_percents(text: str, float_digits=4) -> Generator:
+def get_percents(text: str, return_sources=False, float_digits=4) -> Generator:
     """
     Get percent usages within text.
     :param text:
@@ -27,46 +46,39 @@ def get_percents(text: str, float_digits=4) -> Generator:
     :param float_digits:
     :return:
     """
-    for ant in get_percent_annotations(text, float_digits):
-        yield dict(
-                location_start = ant.coords[0],
-                location_end = ant.coords[1],
-                source_text = ant.text,
-                unit_name = ant.sign,
-                amount = ant.amount,
-                real_amount = ant.fraction)
+    for ant in get_percent_annotations(text, float_digits):  # type:PercentAnnotation
+        item = (ant.sign, ant.amount, ant.fraction)
+        if return_sources:
+            item += (ant.text,)
+        yield item
 
-def get_percent_annotations(text: str, float_digits = 4) -> \
-        Generator[PercentAnnotation, None, None]:
+
+def get_percent_annotations(text: str, float_digits=4) \
+        -> Generator[PercentAnnotation, None, None]:
     """
     Get percent usages within text.
-    :param text:
-    :param return_sources:
-    :param float_digits:
-    :return:
     """
-    for match in PERCENT_PTN_RE.finditer(text):
-        capture = match.capturesdict()
-        amount_text = ''.join(capture.get('num_text', ''))
-        unit_name = ''.join(capture.get('unit_name', ''))
-        amount = list(get_amounts(amount_text, float_digits=float_digits))
-        if len(amount) != 1:
+    for match in PERCENT_PTN_RE.finditer(text.lower()):
+        source_text, number_text, currency_prefix, percent_item = match.groups()
+        if currency_prefix:
             continue
+
+        val = 0  # type:float
+        numbers = list(get_amounts(number_text, float_digits=float_digits))
+        if len(numbers) == 1:
+            val = numbers[0]
         else:
-            amount = amount[0]
-        if 'procent' in unit_name.lower():
-            unit_name = 'procent'
-        real_amount = PERCENT_UNITS_MAP.get(unit_name, 0) * amount
+            ratios = list(get_ratio_annotations(number_text, float_digits=float_digits))
+            if len(ratios) == 1:
+                val = ratios[0].ratio
+            else:
+                continue
+        fraction = PERCENT_UNIT_MAP[percent_item] * val
         if float_digits:
-            real_amount = round(amount, float_digits)
+            fraction = round(fraction, float_digits)
         ant = PercentAnnotation(coords=match.span(),
-                                text=''.join(capture.get('text', '')),
-                                sign=unit_name,
-                                amount=amount,
-                                fraction=real_amount,
-                                locale='nl')
+                                text=source_text.strip(),
+                                amount=val,
+                                fraction=fraction,
+                                sign=percent_item)
         yield ant
-
-
-# def get_percent_list(*args, **kwargs):
-#     return list(get_percents(*args, **kwargs))

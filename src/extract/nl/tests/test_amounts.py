@@ -48,8 +48,8 @@ class TestGetAmounts(AssertionMixin):
     def test_writ_half(self):
         self.assertOneOK(6.5, 'zeseneenhalf')
         self.assertOneOK(
-            2422703.5, 'tweemiljoenvierhonderdduizendtweeentwintigduizendzevenhonderdendrieeenhalf')
-        self.assertOneOK(500000, 'eenhalfmiljoen Dollar')
+            2422704.5, 'tweemiljoenvierhonderdduizendtweeentwintigduizendzevenhonderdviereneenhalf')
+        self.assertOneOK(500000, 'een half miljoen Dollar')
         # TODO: test 'tausendzweihundertvierunddreißig Komma fünf null'
 
     def test_writ_quarter(self):
@@ -67,9 +67,9 @@ class TestGetAmounts(AssertionMixin):
 
     def test_non_writ_number(self):
         self.assertOneOK(1000, 'Het is duizend dollar')
-        self.assertOneOK(200000, 'Het is 200 000 euro')
+        self.assertOneOK(200000, 'Het is 200.000 euro')
         self.assertOneOK(0.5, 'Het is 0,5 vol')
-        self.assertOneOK(10123.5, 'Het is 10 123,5 vol')
+        self.assertOneOK(10123.5, 'Het is 10.123,5 vol')
 
     def test_multiple_values_in_string(self):
         text = 'Het volume bedraagt 10 liter en kost dertig euro'

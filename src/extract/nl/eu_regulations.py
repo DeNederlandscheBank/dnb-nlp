@@ -1,9 +1,7 @@
-"""Regulation extraction for English.
+"""Regulation extraction for Dutch.
 
-This module implements regulation extraction functionality in English.
+This module implements regulation extraction functionality in Dutch.
 
-Todo:
-  * Improved unit tests and case coverage
 """
 
 # Imports
@@ -17,13 +15,13 @@ REGULATION_CODES_MAP = {}
 
 REGULATION_PTN = r"""
 (
-	(Richtlijn(s)?)\s+
+	(Richtlijn(en)?)\s+
     (
       (\s+(en|tot|tot\s+en\s+met|of|-|\,)\s+)?
   	  (\d+\/\d+\/(EC|EEC|EU))
     )+
 |
-  (Verordening(s)?)\s+
+  (Verordening(en)?)\s+
     (
       (\s+(en|tot|tot\s+en\s+met|of|-|\,)\s+)?
       \((EC|EEC|EU)\)\s+NO\s+\d+\/\d+

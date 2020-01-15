@@ -62,7 +62,7 @@ def convert_to_dataframe(pdf_filename, pck_filename, output_path, interim_path):
     df = doc2dataframe(join(output_path, pdf_filename))
     logging.getLogger().setLevel(logging.INFO)
     logger.info('--Saving to dataframe file')
-    logger.info('--Writing file %s' % str(join(interim_path, txt_filename)))
+    logger.info('--Writing file %s' % str(join(interim_path, pck_filename)))
     df.to_pickle(join(interim_path, pck_filename))
    
 if __name__ == '__main__':

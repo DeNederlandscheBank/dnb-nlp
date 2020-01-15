@@ -37,7 +37,7 @@ This installs the packages for natural language processing that we use (scipy, g
 Offline installation
 --------------------
 
-We included all the required packages in the project, so you should be able to do a offline installation.
+We included all the required packages in the project, so you should be able to do an offline installation.
 
 Make sure you have at least Anaconda 5.3.1 installed. 
 

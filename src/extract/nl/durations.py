@@ -1,3 +1,9 @@
+"""Duration extraction for Dutch.
+
+This module implements duration extraction functionality in Dutch.
+
+"""
+
 import regex as re
 from typing import Generator, List
 
@@ -10,7 +16,7 @@ amounts_parser = AmountParserNL()
 get_amounts = amounts_parser.parse
 
 
-class DeDurationParser(DurationParser):
+class NlDurationParser(DurationParser):
     DURATION_MAP = {
         "second": 1 / (60 * 60 * 24),
         "minute": 1 / (60 * 24),
@@ -104,7 +110,7 @@ class DeDurationParser(DurationParser):
 
 
 def get_durations(text: str, float_digits=4) -> Generator:
-    for ant in DeDurationParser.get_annotations(text, float_digits):
+    for ant in NlDurationParser.get_annotations(text, float_digits):
         yield dict(
                 location_start=ant.coords[0],
                 location_end=ant.coords[1],
@@ -119,13 +125,13 @@ def get_durations(text: str, float_digits=4) -> Generator:
 def get_duration_annotations(text: str,
                              float_digits=4) \
         -> Generator[DurationAnnotation, None, None]:
-    yield from DeDurationParser.get_annotations(text, float_digits)
+    yield from NlDurationParser.get_annotations(text, float_digits)
 
 
 def get_duration_annotations_list(text: str,
                                   float_digits=4) \
         -> List[DurationAnnotation]:
-    return DeDurationParser.get_annotations(text, float_digits)
+    return NlDurationParser.get_annotations(text, float_digits)
 
 
 def get_duration_list(text: str, float_digits=4):

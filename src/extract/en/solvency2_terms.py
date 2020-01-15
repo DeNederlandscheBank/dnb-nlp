@@ -75,7 +75,7 @@ def get_solvency2term_annotations(text: str,
                     min_alias_len: int = geoentities_config.MIN_ALIAS_LEN,
                     prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
                     = _ALIAS_BLACK_LIST_PREPARED) -> Generator[GeoAnnotation, None, None]:
-    "See get_geoentities"
+    "See get_solvency2terms"
 
     conflict_resolving_func = None
 
