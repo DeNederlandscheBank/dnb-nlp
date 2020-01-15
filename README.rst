@@ -65,6 +65,11 @@ Make sure you are in the root of the cloned project. Then install the remaining 
 
 	pip install -r requirements.txt --no-index --find-links pkgs/
 
+Then the following error occurs::
+
+	ERROR: lexnlp 1.4.0 has requirement scipy==1.0.0, but you'll have scipy 1.1.0 which is incompatible.
+
+You can ignore that.
 
 Install data
 ============
