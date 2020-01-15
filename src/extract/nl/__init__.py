@@ -6,3 +6,4 @@ from .geoentities import *
 from .language_tokens import *
 from .money import *
 from .percents import *
+from .durations import *
