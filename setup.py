@@ -6,7 +6,7 @@ from os import path
 from setuptools import setup, find_packages
 
 setup(
-    name='solvency2-nlp',
+    name='src',
     packages=find_packages(),
     version='0.1.0',
  	description='Experimental natural language processing projects with Solvency 2 documents',

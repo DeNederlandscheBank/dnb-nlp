@@ -2,15 +2,19 @@
 
 from io import StringIO
 import pandas as pd
+import logging
+
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from pdfminer.pdfdocument import PDFDocument
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
-from lexnlp.nlp.en.segments import sentences
 
-def doc2text(path, language='eng'):
+from lexnlp.nlp.en.segments import sentences as sentences_en
+from src.nlp.nl.segments import sentences as sentences_nl
+
+def doc2text(path, language='en'):
     """
     Simple doc2text method.
     :param path:
@@ -30,11 +34,19 @@ def doc2text(path, language='eng'):
     text = output_string.getvalue()
     return text
 
-def doc2dataframe(path, language='eng'):
+def doc2dataframe(path, lang=None):
     """
     Convert pdf document to dataframe (each sentence separately)
     """
-    df = pd.DataFrame(columns = ['source', 'page', 'sentence', 'text'])
+
+    if ("_nl_" in path.lower()) or (lang == "nl") or ("//nl//" in path.lower()):
+        sentences = sentences_nl
+        lang = "nl"
+    else:
+        sentences = sentences_en
+        lang = "en"
+
+    df = pd.DataFrame(columns = ['source', 'lang', 'page', 'sentence', 'text'])
     codec = 'utf-8'
     with open(path, 'rb') as in_file:
         parser = PDFParser(in_file)
@@ -46,7 +58,8 @@ def doc2dataframe(path, language='eng'):
             interpreter = PDFPageInterpreter(rsrcmgr, device)
             interpreter.process_page(page)
             text = output_string.getvalue()
+            text = sentences.pre_process_document(text)
             for sentence_idx, sentence in enumerate(sentences.get_sentence_list(text)):
-               df = df.append(pd.DataFrame(columns = ['source','page', 'sentence', 'text'], 
-                                           data = [[path, page_idx, sentence_idx, sentence]]), ignore_index=True)
+                df = df.append(pd.DataFrame(columns = ['source','lang', 'page', 'sentence', 'text'], 
+                                            data = [[path, lang, page_idx, sentence_idx, sentence]]), ignore_index=True)
     return df
