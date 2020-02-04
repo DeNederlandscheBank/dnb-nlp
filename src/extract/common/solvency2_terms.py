@@ -1,35 +1,24 @@
-"""Geo Entity extraction for English.
-
-This module implements extraction functionality for geo entities in English, including formal names, abbreviations,
-and aliases.
-
+"""Solvency 2 term extraction for Dutch.
 """
 
 from typing import List, Tuple, Union, Dict, Generator, Any
 
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
-from lexnlp.extract.common.annotations.geo_annotation import GeoAnnotation
-from lexnlp.config.en import geoentities_config
-from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id, \
-    prepare_alias_blacklist_dict, conflicts_top_by_priority, entity_config, add_aliases_to_entity
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.4.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
+from src.extract.common.annotations.term_annotation import TermAnnotation
+from src.extract.common.dict_terms import find_dict_terms, conflicts_take_first_by_id, \
+    prepare_alias_blacklist_dict, conflicts_top_by_priority, term_config, add_aliases_to_term
 
 
-_ALIAS_BLACK_LIST_PREPARED = prepare_alias_blacklist_dict(geoentities_config.ALIAS_BLACK_LIST)
+_ALIAS_BLACK_LIST_PREPARED = prepare_alias_blacklist_dict([])
 
 
-def get_geoentities(text: str,
-                    geo_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
+def get_solvency2_terms(text: str,
+                    term_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
                     priority: bool = False,
                     priority_by_id: bool = False,
-                    text_languages: List[str] = None,
-                    min_alias_len: int = geoentities_config.MIN_ALIAS_LEN,
+                    language: str = None,
+                    min_alias_len: int = 2,
                     prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
                     = _ALIAS_BLACK_LIST_PREPARED) -> Generator[Tuple[Tuple, Tuple], Any, Any]:
     """
@@ -64,24 +53,24 @@ def get_geoentities(text: str,
     if priority:
         conflict_resolving_func = conflicts_top_by_priority
 
-    for ent in find_dict_entities(text,
-                                  geo_config_list,
-                                  conflict_resolving_func=conflict_resolving_func,
-                                  text_languages=text_languages,
-                                  min_alias_len=min_alias_len,
-                                  prepared_alias_black_list=prepared_alias_black_list):
+    for ent in find_dict_terms(text,
+                               term_config_list,
+                               conflict_resolving_func=conflict_resolving_func,
+                               language=language,
+                               min_alias_len=min_alias_len,
+                               prepared_alias_black_list=prepared_alias_black_list):
         yield ent.entity
 
 
-def get_geoentity_annotations(text: str,
-                    geo_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
+def get_solvency2_term_annotations(text: str,
+                    term_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
                     priority: bool = False,
                     priority_by_id: bool = False,
-                    text_languages: List[str] = None,
-                    min_alias_len: int = geoentities_config.MIN_ALIAS_LEN,
+                    language: str = None,
+                    min_alias_len: int = 2,
                     prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
-                    = _ALIAS_BLACK_LIST_PREPARED) -> Generator[GeoAnnotation, None, None]:
-    "See get_geoentities"
+                    = _ALIAS_BLACK_LIST_PREPARED) -> Generator[TermAnnotation, None, None]:
+    "See get_solvency2_terms"
 
     conflict_resolving_func = None
 
@@ -91,42 +80,41 @@ def get_geoentity_annotations(text: str,
     if priority:
         conflict_resolving_func = conflicts_top_by_priority
 
-    dic_entries = find_dict_entities(text,
-                                     geo_config_list,
+    dict_entries = find_dict_terms(text,
+                                     term_config_list,
                                      conflict_resolving_func=conflict_resolving_func,
-                                     text_languages=text_languages,
+                                     language=language,
+                                     use_stemmer=True,
                                      min_alias_len=min_alias_len,
                                      prepared_alias_black_list=prepared_alias_black_list)
 
-    for ent in dic_entries:
-        ant = GeoAnnotation(coords=ent.coords)
-        if ent.entity[0]:
-            toponim = ent.entity[0]
-            year = TextAnnotation.get_int_value(toponim[0])
-            if year:
-                ant.year = year
-            ant.name = toponim[1]
+    for ent in dict_entries:
+        ant = TermAnnotation(coords=ent.coords)
+        if ent.term[0]:
+            ant.name = ent.term[0][1]
+            ant.category = ent.term[0][2]
+            ant.alias = ent.term[0][4]
         yield ant
 
 
-def load_entities_dict_by_path(entities_fn: str, aliases_fn: str):
-    entities = {}
+def load_terms_dict_by_path(terms_fn: str, aliases_fn: str, use_stemmer: bool = False):
+    terms = {}
     import csv
 
-    with open(entities_fn, 'r', encoding='utf8') as f:
+    with open(terms_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            entities[row['id']] = entity_config(row['id'], row['name'], int(row['priority']) if row['priority'] else 0,
-                                                name_is_alias=True)
+            terms[row['id']] = term_config(row['id'], row['name'], row["category"], int(row['priority']) if row['priority'] else 0,
+                                                name_is_alias=False)
 
     with open(aliases_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            entity = entities.get(row['entity_id'])
-            if entity:
-                add_aliases_to_entity(entity,
+            term = terms.get(row['entity_id'])
+            if term:
+                add_aliases_to_term(term,
                                       row['alias'],
                                       row['locale'],
-                                      row['type'].startswith('iso') or row['type'] == 'abbreviation')
+                                      row['type'].startswith('iso') or row['type'] == 'abbreviation', use_stemmer = use_stemmer)
 
-    return entities.values()
+    return terms.values()

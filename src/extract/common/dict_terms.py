@@ -1,40 +1,20 @@
-"""Universal extraction of entities for which we have full dictionaries of possible names and aliases from English text.
-
-   Example: Courts - we have the full dictionary of known courts with their names and aliases and are able to
-   search the text for each possible court.
-            Geo entities - we have the full set of known geo entities and can search any text for their occurrences.
-
-
-   Search methods of this module require lists of possible entities with their ids, names and sets of aliases
-   in different languages.
-   To allow using these methods in Celery and especially for allowing building these configuration lists once and using
-   them in multiple Celery tasks it is required to allow their easy and fast serialization.
-   By default Celery uses JSON serialization starting from v. 4 and does not allow serializing objects of custom
-   classes out of the box. So we will have to use either dicts or tuples to avoid requiring special configuration for
-   Celery. Tuples are faster.
-
-   To avoid typos in development and utilize typization hints in IDE there are few methods in this module for operating
-   tuples which represent entities and aliases. They accept named parameters lists and return tuples.
+"""Universal extraction of entities for which we have full dictionaries of possible names and aliases from Dutch text.
 """
 
 import re
 from typing import Union, List, Dict, Set, Tuple, Callable, Generator, Any
 
-from lexnlp.nlp.en.tokens import get_token_list, get_stem_list
+from lexnlp.nlp.en.tokens import get_token_list as get_token_list_en
+from lexnlp.nlp.en.tokens import get_stem_list as get_stem_list_en
+from src.nlp.nl.tokens import get_token_list as get_token_list_nl
+from src.nlp.nl.tokens import get_stem_list as get_stem_list_nl
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.4.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
-
-
-def entity_config(entity_id: int,
-                  name: str,
-                  priority: int = 0,
-                  aliases: List[Union[str, Tuple]] = (),
-                  name_is_alias: bool = True) -> Tuple[int, str, int, List[Tuple]]:
+def term_config(term_id: int,
+                name: str,
+                category: str,
+                priority: int = 0,
+                aliases: List[Union[str, Tuple]] = (),
+                name_is_alias: bool = True) -> Tuple[int, str, int, List[Tuple]]:
     """
     Create entity configuration for a possible entity with its id, name and aliases to search.
     :param entity_id: Unique identifier of the entity.
@@ -49,21 +29,21 @@ def entity_config(entity_id: int,
     :param name_is_alias: If True - then add entity name to the list of aliases with undefined language.
     :return: A tuple representing the entity in format (entity_id, name, [(alias, lang, is_abbrev, alias_id), ...])
     """
-    res = (entity_id, name, priority, list())
+    res = (term_id, name, category, priority, list())
 
     if name_is_alias:
-        add_alias_to_entity(res, name)
+        add_alias_to_term(res, name)
 
     if aliases:
         for alias in aliases:
             if isinstance(alias, str):
-                add_alias_to_entity(res, alias)
+                add_alias_to_term(res, alias)
             else:
-                res[3].append(alias)
+                res[4].append(alias)
     return res
 
 
-def entity_alias(alias: str, language: str = None, is_abbreviation: bool = False, alias_id: int = None) \
+def term_alias(alias: str, language: str = None, is_abbreviation: bool = False, use_stemmer: bool = False, alias_id: int = None) \
         -> Tuple[str, str, bool, int, str]:
     """
     Create entity alias tuple. This method is just for ensuring type safety of alias components in IDE.
@@ -74,11 +54,11 @@ def entity_alias(alias: str, language: str = None, is_abbreviation: bool = False
     of searching.
     :return: A tuple representing the alias in format: (alias_text, lang, is_abbreviation, alias_id)
     """
-    normalized_alias = normalize_text(alias, lowercase=not is_abbreviation)
+    normalized_alias = normalize_text(alias, language, lowercase=not is_abbreviation, use_stemmer = use_stemmer)
     return alias, language, is_abbreviation, alias_id, normalized_alias
 
 
-def get_entity_name(entity: Tuple[int, str, int, List[Tuple]]) -> str:
+def get_term_name(term: Tuple[int, str, str, int, List[Tuple]]) -> str:
     """
     Get name of the entity.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -86,10 +66,10 @@ def get_entity_name(entity: Tuple[int, str, int, List[Tuple]]) -> str:
     :param entity:
     :return:
     """
-    return entity[1]
+    return term[1]
 
 
-def get_entity_id(entity: Tuple[int, str, int, List[Tuple]]) -> int:
+def get_term_id(term: Tuple[int, str, str, int, List[Tuple]]) -> int:
     """
     Get id of the entity.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -97,10 +77,10 @@ def get_entity_id(entity: Tuple[int, str, int, List[Tuple]]) -> int:
     :param entity:
     :return:
     """
-    return entity[0]
+    return term[0]
 
 
-def get_entity_aliases(entity: Tuple[int, str, int, List[Tuple]]) -> List[Tuple]:
+def get_term_aliases(term: Tuple[int, str, str, int, List[Tuple]]) -> List[Tuple]:
     """
     Get aliases of the entity.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -108,10 +88,10 @@ def get_entity_aliases(entity: Tuple[int, str, int, List[Tuple]]) -> List[Tuple]
     :param entity:
     :return:
     """
-    return entity[3]
+    return term[4]
 
 
-def get_entity_priority(entity: Tuple[int, str, int, List[Tuple]]) -> int:
+def get_term_priority(term: Tuple[int, str, str, int, List[Tuple]]) -> int:
     """
     Get priority of the entity.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -119,7 +99,7 @@ def get_entity_priority(entity: Tuple[int, str, int, List[Tuple]]) -> int:
     :param entity:
     :return:
     """
-    return entity[2]
+    return term[3]
 
 
 def get_alias_text(alias: Tuple[str, str, bool, int]) -> str:
@@ -144,8 +124,8 @@ def get_alias_id(alias: Tuple[str, str, bool, int]) -> int:
     return alias[3]
 
 
-def add_alias_to_entity(entity: Tuple[int, str, int, List[Tuple]],
-                        alias: str, language: str = None, is_abbreviation: bool = False, alias_id: int = None):
+def add_alias_to_term(term: Tuple[int, str, str, int, List[Tuple]],
+                      alias: str, language: str = None, is_abbreviation: bool = False, use_stemmer: bool = False, alias_id: int = None):
     """
     Add alias to entity. Entities are in the form of tuples:
     (entity_id, name, [(alias_text, lang, is_abbrev, alias_id), ...]).
@@ -158,15 +138,16 @@ def add_alias_to_entity(entity: Tuple[int, str, int, List[Tuple]],
     :param alias_id: Alias id or None if identifying is not supported.
     :return:
     """
-    entity[3].append(entity_alias(alias, language, is_abbreviation, alias_id))
+    term[4].append(term_alias(alias, language, is_abbreviation, use_stemmer, alias_id))
 
 
-def add_aliases_to_entity(entity: Tuple[int, str, int, List[Tuple[str, str, bool]]],
-                          aliases_csv: str,
-                          language: str = None,
-                          is_abbreviation: bool = None,
-                          alias_id: int = None,
-                          csv_separator: str = ';'):
+def add_aliases_to_term(term: Tuple[int, str, str, int, List[Tuple[str, str, bool]]],
+                        aliases_csv: str,
+                        language: str = None,
+                        is_abbreviation: bool = None,
+                        use_stemmer: bool = False,
+                        alias_id: int = None,
+                        csv_separator: str = ';'):
     """
     Add alias to entity. Entities are in the form of tuples:
     (entity_id, name, [(alias_text, lang, is_abbrev, alias_id), ...]).
@@ -184,7 +165,7 @@ def add_aliases_to_entity(entity: Tuple[int, str, int, List[Tuple[str, str, bool
     """
     if aliases_csv:
         for alias in aliases_csv.split(csv_separator):
-            add_alias_to_entity(entity, alias, language, is_abbreviation, alias_id)
+            add_alias_to_term(term, alias, language, is_abbreviation, use_stemmer, alias_id)
 
 
 class SearchResultPosition:
@@ -192,39 +173,39 @@ class SearchResultPosition:
     Represents a position in the normalized source text at which one or more entities have been detected.
     One or more entities having equal aliases can be detected on a position in the text.
     """
-    __slots__ = ('entities_dict', 'alias_text', 'start', 'end')
+    __slots__ = ('terms_dict', 'alias_text', 'start', 'end')
 
     def __init__(self,
-                 entity: Tuple[int, str, int, List[Tuple]],
+                 term: Tuple[int, str, int, List[Tuple]],
                  alias: Tuple[str, str, bool, int],
                  start: int,
                  end: int):
-        self.entities_dict = {entity[0]: (entity, alias)}
+        self.terms_dict = {term[0]: (term, alias)}
         self.alias_text = alias[0]
         self.start = start
         self.end = end
 
     def __repr__(self):
-        ent_str = f'{self.entities_dict}'
+        ent_str = f'{self.terms_dict}'
         ending = f'alias="{self.alias_text}", @[{self.start}, {self.end}]'
         return f'{ent_str}; {ending}'
 
-    def add_entity(self,
-                   entity: Tuple[int, str, int, List[Tuple]],
-                   alias: Tuple[str, str, bool, int]):
-        if entity:
-            self.entities_dict[entity[0]] = (entity, alias)
+    def add_term(self,
+                 term: Tuple[int, str, int, List[Tuple]],
+                 alias: Tuple[str, str, bool, int]):
+        if term:
+            self.terms_dict[term[0]] = (term, alias)
         return self
 
-    def get_entities_aliases(self):
-        return list(self.entities_dict.values())
+    def get_terms_aliases(self):
+        return list(self.terms_dict.values())
 
     def overlaps(self, other: 'SearchResultPosition'):
-        return max(self.start, other.start) <= min(self.start + len(self.alias_text) - 1,
-                                                   other.start + len(other.alias_text) - 1)
+        return max(self.start, other.start) <= min(self.end - 1, other.end - 1)
 
 
 def normalize_text(text: str,
+                   language: str = None,
                    spaces_on_start_end: bool = True,
                    spaces_after_dots: bool = True,
                    lowercase: bool = True,
@@ -245,12 +226,16 @@ def normalize_text(text: str,
     geo entities, courts, .... Stemmer is required for searching for some common objects - table, pen, developer, ...
     :return:
     """
-    tokens = get_stem_list(text, lowercase=lowercase) if use_stemmer else get_token_list(text, lowercase=lowercase)
-    res = ' '.join(tokens)
+    res = text
     if spaces_on_start_end:
         res = ' ' + res + ' '
     if spaces_after_dots:
         res = res.replace('.', ' . ').replace('  ', ' ')
+    if (language is not None) and (language.lower() == "nl"):
+        tokens = get_stem_list_nl(res, lowercase=lowercase) if use_stemmer else get_token_list_nl(res, lowercase=lowercase)
+    else:
+        tokens = get_stem_list_en(res, lowercase=lowercase) if use_stemmer else get_token_list_en(res, lowercase=lowercase)
+    res = ' '.join(tokens)
     return res
 
 
@@ -268,10 +253,10 @@ def alias_is_blacklisted(alias_black_list: Union[None, Dict[str, Tuple[List[str]
     return False
 
 
-def _find_entity_positions(normalized_text: str,
+def _find_term_positions(normalized_text: str,
                            normalized_text_lowercase: str,
-                           entity: Tuple[int, str, int, List[Tuple]],
-                           text_languages: Union[List[str], Tuple[str], Set[str]],
+                           term: Tuple[int, str, str, int, List[Tuple]],
+                           language: str = None,
                            context: Dict[int, SearchResultPosition] = None,
                            use_stemmer: bool = False,
                            abbrev_uppercase_check_range: int = 20,
@@ -314,9 +299,9 @@ def _find_entity_positions(normalized_text: str,
     if context is None:
         context = dict()
 
-    entity_aliases = get_entity_aliases(entity)
-    if entity_aliases:
-        for ea in entity_aliases:
+    term_aliases = get_term_aliases(term)
+    if term_aliases:
+        for ea in term_aliases:
 
             alias_text = ea[0]
             alias_lang = ea[1]
@@ -324,10 +309,9 @@ def _find_entity_positions(normalized_text: str,
 
             # get or create normalized alias
             normalized_alias = ea[4] if len(ea) == 5 and ea[4] is not None\
-                else normalize_text(alias_text, lowercase=not alias_is_abbreviation, use_stemmer=use_stemmer)
+                else normalize_text(alias_text, language, lowercase=not alias_is_abbreviation, use_stemmer=use_stemmer)
 
-            if not alias_text or (
-                            text_languages and alias_lang and alias_lang not in text_languages):
+            if not alias_text or (language and alias_lang and alias_lang not in language):
                 continue
             if min_alias_len and len(alias_text) < min_alias_len:
                 continue
@@ -351,38 +335,38 @@ def _find_entity_positions(normalized_text: str,
 
                 already_found = context.get(start)
                 if already_found and len(already_found.alias_text) >= len(alias_text):
-                    already_found.add_entity(entity, ea)
+                    already_found.add_term(term, ea)
                 else:
-                    context[start] = SearchResultPosition(entity, ea, start, end)
+                    context[start] = SearchResultPosition(term, ea, start, end)
 
 
-class DictionaryEntity:
-    def __init__(self, entity: Any, coords: Tuple[int, int]):
-        self.entity = entity
+class DictionaryTerm:
+    def __init__(self, term: Any, coords: Tuple[int, int]):
+        self.term = term
         self.coords = coords
 
     def __repr__(self):
-        ent_str = 'None'
-        if self.entity:
-            ent_str = str(self.entity[0])
-            if len(self.entity) > 1:
-                ent_str += f', {self.entity[1]}'
+        term_str = 'None'
+        if self.term:
+            term_str = str(self.term[0])
+            if len(self.term) > 1:
+                term_str += f', {self.term[1]}'
         coord_str = ', -'
         if self.coords:
             coord_str = f', @[{self.coords[0]}, {self.coords[1]}]'
-        return ent_str + coord_str
+        return term_str + coord_str
 
 
-def find_dict_entities(text: str,
-                       all_possible_entities: List[Tuple[int, str, int, List[Tuple]]],
-                       text_languages: Union[List[str], Tuple[str], Set[str]] = None,
-                       conflict_resolving_func: Callable[[List[Tuple[int, str, List[Tuple]]]],
+def find_dict_terms(text: str,
+                    all_possible_terms: List[Tuple[int, str, str, int, List[Tuple]]],
+                    language: str = None,
+                    conflict_resolving_func: Callable[[List[Tuple[int, str, List[Tuple]]]],
                                                          Tuple[List[Tuple[int, str, List[Tuple]]], Tuple]] = None,
-                       use_stemmer: bool = False,
-                       remove_time_am_pm: bool = True,
-                       min_alias_len: int = None,
-                       prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]] = None)\
-        -> Generator[DictionaryEntity, None, None]:
+                    use_stemmer: bool = False,
+                    remove_time_am_pm: bool = True,
+                    min_alias_len: int = None,
+                    prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]] = None)\
+        -> Generator[DictionaryTerm, None, None]:
     """
     Find all entities defined in the 'all_possible_entities' list appeared in the source text.
     This method takes care of leaving only the longest matching search result for the case of multiple
@@ -445,13 +429,13 @@ def find_dict_entities(text: str,
     if not text:
         return
 
-    normalized_text = normalize_text(text, lowercase=False, use_stemmer=use_stemmer)
+    normalized_text = normalize_text(text, language, lowercase=False, use_stemmer=use_stemmer)
     normalized_text_lowercase = normalized_text.lower()
 
     search_context = dict()
     # Search for each DictEntity occurrence adding them into the shared search context.
-    for dict_entity in all_possible_entities:
-        _find_entity_positions(normalized_text, normalized_text_lowercase, dict_entity, text_languages, search_context,
+    for dict_term in all_possible_terms:
+        _find_term_positions(normalized_text, normalized_text_lowercase, dict_term, language, search_context,
                                use_stemmer=use_stemmer, min_alias_len=min_alias_len,
                                alias_black_list=prepared_alias_black_list)
 
@@ -470,7 +454,7 @@ def find_dict_entities(text: str,
     prev_pos = None
 
     def resolve_conflicts(pos: SearchResultPosition) \
-            -> List[DictionaryEntity]:
+            -> List[DictionaryTerm]:
         """
         Takes SearchResultPosition (multiple found entities+aliases at the same position in the text)
         and return a single entity+its alias which should be returned for this position or their smaller list.
@@ -478,27 +462,20 @@ def find_dict_entities(text: str,
         :param pos:
         :return:
         """
-        entities_at_pos = pos.get_entities_aliases()
-        if remove_time_am_pm and pos.alias_text.lower() in ('am', 'pm'):
-            # We should check if this is not something like 11:45 am or 11:45.123 pm
-            maybe_time1 = normalized_text_lowercase[max(0, pos.start - 3):pos.start + 1]
-            maybe_time2 = normalized_text_lowercase[max(0, pos.start - 4):pos.start + 1]
-            if re.match(r':\d\d\s', maybe_time1) \
-                    or re.match(r'\.\d\d\d\s', maybe_time2):
-                return []
+        terms_at_pos = pos.get_terms_aliases()
 
-        if len(entities_at_pos) == 1:
-            return [DictionaryEntity(entities_at_pos[0], (pos.start, pos.end))]
+        if len(terms_at_pos) == 1:
+            return [DictionaryTerm(terms_at_pos[0], (pos.start, pos.end))]
         else:
-            cfree_ents = conflict_resolving_func(entities_at_pos) \
-                if conflict_resolving_func else entities_at_pos
-            return [DictionaryEntity(ent, (pos.start, pos.end))
+            cfree_ents = conflict_resolving_func(terms_at_pos) \
+                if conflict_resolving_func else terms_at_pos
+            return [DictionaryTerm(ent, (pos.start, pos.end))
                     for ent in cfree_ents]
 
     for (_index, next_pos) in sorted(search_context.items()):
         if prev_pos and not next_pos.overlaps(prev_pos):
-            for entity in resolve_conflicts(prev_pos):
-                yield entity
+            for term in resolve_conflicts(prev_pos):
+                yield term
             prev_pos = next_pos
         else:
             prev_pos = prev_pos if prev_pos and len(prev_pos.alias_text) >= len(next_pos.alias_text) else next_pos
@@ -508,27 +485,27 @@ def find_dict_entities(text: str,
         yield from resolved_ents
 
 
-def conflicts_take_first_by_id(conflicting_entities_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \
-        -> List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
+def conflicts_take_first_by_id(conflicting_terms_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \
+        -> List[Tuple[Tuple[int, str, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
     """
     Default conflict resolving function for dropping all entities detected at the same position excepting the one
     having the smallest id. To be used in find_dict_entities() method.
     :param conflicting_entities_aliases: list of (entity, alias) pairs
     :return:
     """
-    return [min(conflicting_entities_aliases, key=lambda entity_alias_pair: get_entity_id(entity_alias_pair[0])), ]
+    return [min(conflicting_terms_aliases, key=lambda term_alias_pair: get_term_id(term_alias_pair[0])), ]
 
 
-def conflicts_top_by_priority(conflicting_entities_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \
-        -> List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
+def conflicts_top_by_priority(conflicting_terms_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \
+        -> List[Tuple[Tuple[int, str, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
     """
     Default conflict resolving function for dropping all entities detected at the same position excepting the one
     having the smallest id. To be used in find_dict_entities() method.
     :param conflicting_entities_aliases: list of (entity, alias) pairs
     :return:
     """
-    return [max(conflicting_entities_aliases,
-                key=lambda entity_alias_pair: get_entity_priority(entity_alias_pair[0])), ]
+    return [max(conflicting_terms_aliases,
+                key=lambda term_alias_pair: get_term_priority(term_alias_pair[0])), ]
 
 
 def prepare_alias_blacklist_dict(alias_blacklist: List[Tuple[str, str, bool]], use_stemmer: bool=False) \
