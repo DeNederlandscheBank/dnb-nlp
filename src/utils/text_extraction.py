@@ -53,6 +53,9 @@ def doc2dataframe(path, language=None, document_type=None, document_year=None):
         else:
             sentences = sentences_en
             language = "en"
+    else:
+        sentences = sentences_en
+        language = "en"
 
     df = pd.DataFrame(columns = ['source', 'language', 'document type', 'document year', 'page', 'sentence', 'text'])
     codec = 'utf-8'

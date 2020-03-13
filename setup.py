@@ -5,12 +5,15 @@ from os import path
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 
+requirements = [ ]
+
 setup(
-    name='dnb-nlp',
+    name='src',
     packages=find_packages(),
     version='0.1.0',
  	description='Experimental natural language processing projects with central bank and supervisory documents',
-	url='https://github.com/DeNederlandscheBank/dnb-nlp.git',
+	url='https://github.com/DeNederlandscheBank/dnb-nlp',
+	install_requires=requirements,
     author='DeNederlandscheBank',
     python_requires='~=3.6',
     license='MIT/X',
