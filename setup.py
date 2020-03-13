@@ -6,11 +6,11 @@ from os import path
 from setuptools import setup, find_packages
 
 setup(
-    name='src',
+    name='dnb-nlp',
     packages=find_packages(),
     version='0.1.0',
- 	description='Experimental natural language processing projects with Solvency 2 documents',
-	url='https://github.com/DeNederlandscheBank/solvency2-nlp.git',
+ 	description='Experimental natural language processing projects with central bank and supervisory documents',
+	url='https://github.com/DeNederlandscheBank/dnb-nlp.git',
     author='DeNederlandscheBank',
     python_requires='~=3.6',
     license='MIT/X',

@@ -1,14 +1,14 @@
 =============
-solvency2-nlp
+dnb-nlp
 =============
 
 .. image:: https://img.shields.io/badge/License-MIT/X-blue.svg
         :target: https://github.com/DeNederlandscheBank/solvency2-nlp/blob/master/LICENSE
         :alt: License
 
-Experimental natural language processing projects with Solvency 2 documents
+Experimental natural language processing projects with central bank and supervisory documents
 
-In this repository we publish our progress in natural language processing with Solvency 2 documents.
+In this repository we publish our progress in natural language processing with documents.
 
 Installation
 ============
@@ -18,7 +18,7 @@ Online installation
 
 Clone the project::
 
-    git clone https://github.com/DeNederlandscheBank/solvency2-nlp.git
+    git clone https://github.com/DeNederlandscheBank/dnb-nlp.git
 
 Then start with a clean environment::
     
@@ -41,7 +41,7 @@ We included all the required packages in the project, so you should be able to d
 
 Make sure you have at least Anaconda 5.3.1 installed. 
 
-Make sure you have the zip file from https://github.com/DeNederlandscheBank/solvency2-nlp.git. Extract the zip file to the desired location.
+Make sure you have the zip file from https://github.com/DeNederlandscheBank/dnb-nlp.git. Extract the zip file to the desired location.
 
 Then start with a clean and empty environment::
     
