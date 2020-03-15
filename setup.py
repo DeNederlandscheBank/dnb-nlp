@@ -8,8 +8,9 @@ from setuptools import setup, find_packages
 requirements = [ ]
 
 setup(
-    name='src',
-    packages=find_packages(),
+    name='dnbnlp',
+    keywords='dnbnlp',
+    packages=find_packages(include=['dnbnlp', 'dnbnlp.*']),
     version='0.1.0',
  	description='Experimental natural language processing projects with central bank and supervisory documents',
 	url='https://github.com/DeNederlandscheBank/dnb-nlp',
