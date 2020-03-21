@@ -5,8 +5,8 @@ import io
 from lexnlp.extract.common.annotations.geo_annotation import GeoAnnotation
 #from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
-from src.extract.nl.geoentities import get_geoentity_list, get_geoentity_annotations
-from src.extract.nl.tests.test_amounts import AssertionMixin
+from dnbnlp.extract.nl.geoentities import get_geoentity_list, get_geoentity_annotations
+from dnbnlp.extract.nl.tests.test_amounts import AssertionMixin
 
 sample_csv = '''
 "Entity ID","Entity Category","Entity Name","Entity Priority","Dutch Name","Spanish Name","French Name","ISO-3166-2","ISO-3166-3","Alias","Latitude","Longitude"

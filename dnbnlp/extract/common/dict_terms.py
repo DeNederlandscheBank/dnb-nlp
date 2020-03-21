@@ -6,8 +6,8 @@ from typing import Union, List, Dict, Set, Tuple, Callable, Generator, Any
 
 from lexnlp.nlp.en.tokens import get_token_list as get_token_list_en
 from lexnlp.nlp.en.tokens import get_stem_list as get_stem_list_en
-from src.nlp.nl.tokens import get_token_list as get_token_list_nl
-from src.nlp.nl.tokens import get_stem_list as get_stem_list_nl
+from dnbnlp.nlp.nl.tokens import get_token_list as get_token_list_nl
+from dnbnlp.nlp.nl.tokens import get_stem_list as get_stem_list_nl
 
 def term_config(term_id: int,
                 name: str,

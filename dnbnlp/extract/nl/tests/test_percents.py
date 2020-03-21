@@ -3,8 +3,8 @@ from typing import List
 from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
 #from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
-from src.extract.nl.percents import get_percents, get_percent_annotations
-from src.extract.nl.tests.test_amounts import AssertionMixin
+from dnbnlp.extract.nl.percents import get_percents, get_percent_annotations
+from dnbnlp.extract.nl.tests.test_amounts import AssertionMixin
 
 class TestGetPercents(AssertionMixin):
     def test_percent_prefix(self):

@@ -9,7 +9,7 @@ from os.path import isfile, join
 from os import listdir
 import re
 import requests
-from src.utils.text_extraction import doc2text, doc2dataframe
+from dnbnlp.utils.text_extraction import doc2text, doc2dataframe
 
 from bs4 import BeautifulSoup as soup
 import urllib

@@ -13,7 +13,7 @@ from typing import List
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 #from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
-from src.extract.nl.dates import get_date_list, get_date_annotations
+from dnbnlp.extract.nl.dates import get_date_list, get_date_annotations
 
 class TestNlDatesPlain(TestCase):
 

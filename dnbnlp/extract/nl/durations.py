@@ -8,7 +8,7 @@ import regex as re
 from lexnlp.extract.common.durations.durations_parser import DurationParser
 from lexnlp.extract.common.annotations.duration_annotation import DurationAnnotation
 
-from src.extract.nl.amounts import get_amounts, NUM_PTN
+from dnbnlp.extract.nl.amounts import get_amounts, NUM_PTN
 
 class NlDurationParser(DurationParser):
     DURATION_MAP = {

@@ -12,7 +12,7 @@ from typing import Generator
 
 from lexnlp.extract.common.annotations.money_annotation import MoneyAnnotation
 
-from src.extract.nl.amounts import (
+from dnbnlp.extract.nl.amounts import (
     get_amounts, NUM_PTN, CURRENCY_PREFIX_MAP,
     CURRENCY_SYMBOL_MAP)
 

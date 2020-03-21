@@ -8,7 +8,7 @@ from os.path import isfile, join
 from os import listdir
 import re
 import requests
-from src.utils.text_extraction import doc2text
+from dnbnlp.utils.text_extraction import doc2text
 
 EXTERNAL_PATH = join('data', 'external', 'law')
 INTERIM_PATH = join('data', 'interim', 'law')

@@ -3,8 +3,8 @@ from typing import List
 from lexnlp.extract.common.annotations.duration_annotation import DurationAnnotation
 #from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
-from src.extract.nl.durations import get_duration_list, get_duration_annotations
-from src.extract.nl.tests.test_amounts import AssertionMixin
+from dnbnlp.extract.nl.durations import get_duration_list, get_duration_annotations
+from dnbnlp.extract.nl.tests.test_amounts import AssertionMixin
 
 
 class TestGetDurations(AssertionMixin):

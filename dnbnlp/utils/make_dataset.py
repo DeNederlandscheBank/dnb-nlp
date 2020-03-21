@@ -7,7 +7,7 @@ from dotenv import find_dotenv, load_dotenv
  
 from os.path import isfile, join, exists
 from os import listdir, walk, makedirs
-from src.utils.text_extraction import doc2text, doc2dataframe
+from dnbnlp.utils.text_extraction import doc2text, doc2dataframe
  
 EXTERNAL_PATH = join('data', 'external', 'sfcr')
 INTERIM_PATH = join('data', 'interim', 'sfcr')

@@ -12,7 +12,7 @@ from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfparser import PDFParser
 
 from lexnlp.nlp.en.segments import sentences as sentences_en
-from src.nlp.nl.segments import sentences as sentences_nl
+from dnbnlp.nlp.nl.segments import sentences as sentences_nl
 
 import nltk
 from bs4 import BeautifulSoup

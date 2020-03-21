@@ -4,7 +4,7 @@ from num2words import num2words
 from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 #from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
-from src.extract.nl.amounts import get_amounts, get_amount_annotations
+from dnbnlp.extract.nl.amounts import get_amounts, get_amount_annotations
 
 def _sort(v):
     return sorted(v, key=lambda i: i['location_start'])
