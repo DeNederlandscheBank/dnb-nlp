@@ -107,7 +107,11 @@ def load_terms_dict_by_path(terms_fn: str, use_stemmer: bool = False):
         for row in reader:
             terms[row['id']] = term_config(row['id'], row['name'], row['category'], int(row['priority']) if row['priority'] else 0,
                                                 name_is_alias=False)
+<<<<<<< HEAD:dnbnlp/extract/common/terms.py
             term = terms.get(row['entity_id'])
+=======
+            term = terms.get(row['id'])
+>>>>>>> 6988f93a56a9b9ff0a0e507974817ea82920ec83:src/extract/common/terms.py
             add_aliases_to_term(term,
                                 row['english name'],
                                 'en',
