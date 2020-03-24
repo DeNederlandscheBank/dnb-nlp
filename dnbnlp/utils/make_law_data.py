@@ -110,7 +110,7 @@ def main(language_id, output_path, interim_path):
             da_txt.write(da_text.encode('utf-8'))
             da_txt.close()
         else:
-            logger.info('Language %s already converted to txt file' % language)
+            logger.info('Language %s is already converted to txt file' % language)
 
 if __name__ == '__main__':
     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
