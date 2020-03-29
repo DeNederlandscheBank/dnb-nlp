@@ -21,3 +21,6 @@ lexnlp
 pillow==7.0.0
 wand==0.5.8
 pytesseract==0.3.2
+cycler==0.10.0
+matplotlib==1.5.3
+wordcloud==1.6.0
