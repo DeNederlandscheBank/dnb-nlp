@@ -81,13 +81,13 @@ Legislation data
 
 To get the legislation data, run in the project root::
     
-    python src/utils/make_law_data.py
+    python dnbnlp/utils/make_law_data.py
 
 Then you can choose from all official European languages.
 
 You can also run::
 
-    python src/utils/make_law_data.py --language EN
+    python dnbnlp/utils/make_law_data.py --language EN
 
 to get the English version of the legislation. To get all languages use ``--language ALL``.
 
@@ -104,7 +104,7 @@ SFCR data
 
 To get the SFCR data, run in the project root::
     
-    python src/utils/make_sfcr_data.py
+    python dnbnlp/utils/make_sfcr_data.py
 
 This downloads all the SFCRs defined in ``/data/metadata_sfcr.csv`` (the cvs-files contains the urls of the SFCR documents of a number of insurance undertakings).
 
