@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-solvency2-nlp documentation!
-==============================================
+dnb-nlp documentation!
+======================
 
 Contents:
 
