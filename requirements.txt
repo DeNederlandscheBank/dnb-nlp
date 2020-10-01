@@ -16,7 +16,7 @@ coverage
 python-dotenv>=0.5.1
 jupyterlab
 pdfminer.six
-lexnlp
+lexnlp==1.4.0
 pillow==7.0.0
 wand==0.5.8
 pytesseract==0.3.2
