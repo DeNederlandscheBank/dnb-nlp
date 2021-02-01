@@ -1,16 +1,19 @@
 """Term extraction for Dutch.
 """
-
+ 
 from typing import List, Tuple, Union, Dict, Generator, Any
-
+ 
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
-
+ 
 from dnbnlp.extract.common.annotations.term_annotation import TermAnnotation
 from dnbnlp.extract.common.dict_terms import find_dict_terms, conflicts_take_first_by_id, \
     prepare_alias_blacklist_dict, conflicts_top_by_priority, term_config, add_aliases_to_term
-
-
+ 
+import pandas as pd
+import numpy as np
+ 
 _ALIAS_BLACK_LIST_PREPARED = prepare_alias_blacklist_dict([])
+
 
 
 def get_terms(text: str,
@@ -25,7 +28,7 @@ def get_terms(text: str,
     Searches for geo entities from the provided config list and yields pairs of (entity, alias).
     Entity is: (entity_id, name, [list of aliases])
     Alias is: (alias_text, lang, is_abbrev, alias_id)
-
+ 
     This method uses general searching routines for dictionary entities from dict_entities.py module.
     Methods of dict_entities module can be used for comfortable creating the config: entity_config(),
     entity_alias(), add_aliases_to_entity().
@@ -46,13 +49,13 @@ def get_terms(text: str,
     :return: Generates tuples: (entity, alias)
     """
     conflict_resolving_func = None
-
+ 
     if priority_by_id:
         conflict_resolving_func = conflicts_take_first_by_id
-
+ 
     if priority:
         conflict_resolving_func = conflicts_top_by_priority
-
+ 
     for ent in find_dict_terms(text,
                                term_config_list,
                                conflict_resolving_func=conflict_resolving_func,
@@ -60,33 +63,33 @@ def get_terms(text: str,
                                min_alias_len=min_alias_len,
                                prepared_alias_black_list=prepared_alias_black_list):
         yield ent.entity
-
-
+ 
+ 
 def get_term_annotations(text: str,
                          term_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
                          priority: bool = False,
                          priority_by_id: bool = False,
+                         use_stemmer: bool = True,
                          language: str = None,
                          min_alias_len: int = 2,
                          prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
                          = _ALIAS_BLACK_LIST_PREPARED) -> Generator[TermAnnotation, None, None]:
-
     conflict_resolving_func = None
-
+ 
     if priority_by_id:
         conflict_resolving_func = conflicts_take_first_by_id
-
+ 
     if priority:
         conflict_resolving_func = conflicts_top_by_priority
-
+ 
     dict_entries = find_dict_terms(text,
                                      term_config_list,
                                      conflict_resolving_func=conflict_resolving_func,
                                      language=language,
-                                     use_stemmer=True,
+                                     use_stemmer=use_stemmer,
                                      min_alias_len=min_alias_len,
                                      prepared_alias_black_list=prepared_alias_black_list)
-
+   
     for ent in dict_entries:
         ant = TermAnnotation(coords=ent.coords)
         if ent.term[0]:
@@ -94,12 +97,12 @@ def get_term_annotations(text: str,
             ant.category = ent.term[0][2]
             ant.alias = ent.term[0][4]
         yield ant
-
-
+ 
+ 
 def load_terms_dict_by_path(terms_fn: str, use_stemmer: bool = False):
-    
+   
     terms = {}
-
+ 
     import csv
 
     with open(terms_fn, 'r', encoding='utf8') as f:
@@ -113,10 +116,10 @@ def load_terms_dict_by_path(terms_fn: str, use_stemmer: bool = False):
                                 'en',
                                 row['type'] == 'abbreviation', use_stemmer = use_stemmer)
             add_aliases_to_term(term,
-                                row['dutch name'],
-                                'nl',
-                                row['type'] == 'abbreviation', use_stemmer = use_stemmer)
-
+                            row['dutch name'],
+                            'nl',
+                            row['type'] == 'abbreviation', use_stemmer = use_stemmer)
+ 
     # with open(aliases_fn, 'r', encoding='utf8') as f:
     #     reader = csv.DictReader(f)
     #     for row in reader:
@@ -126,5 +129,45 @@ def load_terms_dict_by_path(terms_fn: str, use_stemmer: bool = False):
     #                                   row['alias'],
     #                                   row['locale'],
     #                                   row['type'].startswith('iso') or row['type'] == 'abbreviation', use_stemmer = use_stemmer)
-
+ 
+    return terms.values()
+ 
+def load_dict_from_df(df: pd.DataFrame, use_stemmer: bool = False):
+   
+    terms = {}
+ 
+    for row in df.index:
+        terms[df.loc[row, 'id']] = term_config(df.loc[row,'id'],
+                                               df.loc[row,'name'],
+                                               df.loc[row, 'category'],
+                                               int(df.loc[row,'priority']) if not np.isnan(df.loc[row,'priority']) else 0,
+                                               name_is_alias=False)
+        term = terms.get(df.loc[row,'id'])
+        add_aliases_to_term(term,
+                            df.loc[row,'english name'],
+                            'en',
+                            df.loc[row,'type'] == 'abbreviation', use_stemmer = use_stemmer)
+       
+        if str(df.loc[row, 'english alias'])!='nan':
+            aliases = df.loc[row, 'english alias'].split(",")
+            for alias in aliases:
+                add_aliases_to_term(term,
+                                    alias,
+                                    'en',
+                                    df.loc[row,'type'] == 'abbreviation', use_stemmer = use_stemmer)
+       
+        add_aliases_to_term(term,
+                        df.loc[row,'dutch name'],
+                        'nl',
+                        df.loc[row,'type'] == 'abbreviation', use_stemmer = use_stemmer)
+ 
+        if str(df.loc[row, 'dutch alias'])!='nan':
+            aliases = df.loc[row, 'dutch alias'].split(",")
+            for alias in aliases:
+                add_aliases_to_term(term,
+                                    alias,
+                                    'en',
+                                    df.loc[row,'type'] == 'abbreviation', use_stemmer = use_stemmer)
+       
+        
     return terms.values()
